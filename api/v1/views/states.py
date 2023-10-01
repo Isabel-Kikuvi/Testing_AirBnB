@@ -8,7 +8,9 @@ from models.state import State
 
 @app_views.route('/states', methods=['GET'])
 def get_states():
-    states = [state.to_dict() for state in storage.all(State).values()]
+    states = []
+    for state in storage.all("State").values():
+        states.append(state.to_dict())
     return jsonify(states)
 
 @app_views.route('/states/<state_id>', methods=['GET'])
@@ -25,7 +27,7 @@ def delete_state(state_id):
         abort(404)
     storage.delete(state)
     storage.save()
-    return jsonify({}), 200
+    return jsonify({})
 
 
 @app_views.route('/states', methods=['POST'])
